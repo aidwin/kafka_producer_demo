@@ -1,0 +1,38 @@
+server:
+  port: 3333
+  servlet:
+    context-path: /report
+spring:
+  profiles:
+    active: pro
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql1:3306/report_content_kafka?characterEncoding=utf-8&useTimezone=true&serverTimezone=GMT%2B8
+#    username: datag
+#    password: yjkdatag
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: datanode1:9092,datanode2:9092,datanode3:9092
+    producer:
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: 1
+    consumer:
+      group-id: kafka2mysql_001
+      auto-offset-reset: earliest
+#      auto-offset-reset: latest
+      auto-commit-interval: 5000
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+datetime:
+  kafka2mysql:
+    start-landing-time: 2020-04-17 00:00:00
+#    start-landing-time: 2020-04-17 16:15:00
